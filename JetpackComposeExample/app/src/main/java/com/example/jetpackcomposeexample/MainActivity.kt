@@ -13,13 +13,14 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.SemanticsProperties.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
@@ -45,10 +46,151 @@ class MainActivity : ComponentActivity() {
             //LazyColumnScrollableComponent(blogList = getBlogList())
             //LazyRowScrollableComponent(blogList = getBlogList())
             //AlertDialogComponent()
-            CountriesDialog()
-            SingleChoiceDialogActivityContent()
+            //CountriesDialog()
+            //SingleChoiceDialogActivityContent()
+//            Column(modifier = Modifier.fillMaxSize()) {
+//                Text(text = "Bottom Appbar")
+//                BottomAppBarComponent()
+//                Text(text = "Top Appbar")
+//                TopAppBarComponent()
+//            }
+//            Text(text = "Bottom Navigation with label")
+//            BottomNavigationWithLabelComponent()
+            Column {
+                SimpleTextComponent(text = "Simple CheckBox Example")
+                SimpleCheckboxComponent()
+                SimpleTextComponent(text = "Colored CheckBox Example")
+                ColoredCheckboxComponent()
+                SimpleTextComponent(text = "Tri-State CheckBox Example")
+                TriStateCheckboxComponent()
+            }
         }
     }
+}
+
+@Composable
+fun SimpleTextComponent(text: String) {
+    Text(
+        text = text,
+        style = TextStyle(
+            fontSize = 16.sp
+        ), modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    )
+}
+
+@Composable
+fun SimpleCheckboxComponent() {
+    val checkedState = remember {
+        mutableStateOf(true)
+    }
+    Row {
+        Checkbox(
+            checked = checkedState.value,
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            onCheckedChange = { checkedState.value = it })
+        Text(text = "Checkbox Example", modifier = Modifier.padding(16.dp))
+    }
+}
+
+@Composable
+fun ColoredCheckboxComponent() {
+    val checkedState = remember { mutableStateOf(true) }
+    Row {
+        Checkbox(
+            checked = checkedState.value,
+            modifier = Modifier.padding(16.dp),
+            onCheckedChange = { checkedState.value = it },
+            colors = CheckboxDefaults.colors(Color.Blue)
+        )
+        Text(text = "Checkbox Example with color", modifier = Modifier.padding(16.dp))
+    }
+}
+
+@Composable
+fun TriStateCheckboxComponent() {
+    val toggleableState =
+        listOf(
+            androidx.compose.ui.state.ToggleableState.Off,
+            androidx.compose.ui.state.ToggleableState.On,
+            androidx.compose.ui.state.ToggleableState.Indeterminate
+        )
+    var counter by remember { mutableStateOf(0) }
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    ) {
+        TriStateCheckbox(
+            state = toggleableState[counter % 3],
+            onClick = {
+                counter++
+            })
+        Text(text = "Checkbox tri-state example", modifier = Modifier.padding(start = 16.dp))
+    }
+}
+
+@Composable
+fun BottomNavigationWithLabelComponent() {
+    var selectedItem by remember { mutableStateOf(0) }
+    val items = listOf("Home", "Blogs", "Profile")
+    BottomNavigation(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        backgroundColor = Color.Black,
+        contentColor = Color.Yellow
+    ) {
+        items.forEachIndexed { index, item ->
+            BottomNavigationItem(
+                selected = selectedItem == index,
+                label = { Text(text = item) },
+                icon = { Icon(Icons.Filled.Favorite, "favorite") },
+                onClick = { selectedItem = index })
+        }
+    }
+}
+
+@Composable
+fun BottomAppBarComponent() {
+    BottomAppBar(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    ) {
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.Menu, "menu")
+
+        }
+        Spacer(modifier = Modifier.weight(1f, true))
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.Favorite, "favorite")
+        }
+        IconButton(onClick = { /* doSomething() */ }) {
+            Icon(Icons.Filled.Favorite, "favorite")
+        }
+    }
+}
+
+@Composable
+fun TopAppBarComponent() {
+    TopAppBar(modifier = Modifier
+        .padding(16.dp)
+        .fillMaxWidth(), title = { Text("App Name") }, navigationIcon = {
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.Menu, "menu")
+        }
+    }, actions = {
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.Favorite, "favorite")
+        }
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(Icons.Filled.Favorite, "favorite")
+        }
+    })
 }
 
 @Composable
