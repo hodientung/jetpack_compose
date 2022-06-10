@@ -56,16 +56,149 @@ class MainActivity : ComponentActivity() {
 //            }
 //            Text(text = "Bottom Navigation with label")
 //            BottomNavigationWithLabelComponent()
+//            Column {
+//                SimpleTextComponent(text = "Simple CheckBox Example")
+//                SimpleCheckboxComponent()
+//                SimpleTextComponent(text = "Colored CheckBox Example")
+//                ColoredCheckboxComponent()
+//                SimpleTextComponent(text = "Tri-State CheckBox Example")
+//                TriStateCheckboxComponent()
+//            }
             Column {
-                SimpleTextComponent(text = "Simple CheckBox Example")
-                SimpleCheckboxComponent()
-                SimpleTextComponent(text = "Colored CheckBox Example")
-                ColoredCheckboxComponent()
-                SimpleTextComponent(text = "Tri-State CheckBox Example")
-                TriStateCheckboxComponent()
+                SimpleTextComponent(text = "Simple Circular Progress")
+                SimpleCircularProgressComponent()
+                SimpleTextComponent(text = "Circular ProgressBar with 40% progress")
+                CircularProgressComponent()
+                SimpleTextComponent(text = "Simple Linear Progress")
+                SimpleLinearProgressComponent()
+                SimpleTextComponent(text = "Linear Progress with 70% progress")
+                LinearProgressComponent()
+            }
+//            Column {
+//                SimpleTextComponent(text = "Radio Button Example")
+//                SimpleRadioButtonComponent()
+//            }
+//            Column {
+//                SimpleTextComponent(text = "Simple Slider Example")
+//                SimpleSliderComponent()
+//                SimpleTextComponent(text = "Colored Slider Example")
+//                ColoredSliderComponent()
+//                SimpleTextComponent(text = "Stepped Slider Example")
+//                SteppedSliderComponent()
+//            }
+        }
+    }
+}
+
+@Composable
+fun SimpleSliderComponent() {
+    var sliderValue by remember { mutableStateOf(0.4f) }
+    Slider(
+        value = sliderValue,
+        modifier = Modifier.padding(8.dp),
+        onValueChange = { newValue ->
+            sliderValue = newValue
+        }
+    )
+    Text(
+        text = "Slider value: $sliderValue",
+        modifier = Modifier.padding(8.dp)
+    )
+}
+
+@Composable
+fun ColoredSliderComponent() {
+    var sliderValue by remember { mutableStateOf(0.4f) }
+    Slider(
+        value = sliderValue,
+        modifier = Modifier.padding(8.dp),
+        onValueChange = { newValue ->
+            sliderValue = newValue
+        }
+    )
+    Text(
+        text = "Slider value: $sliderValue",
+        modifier = Modifier.padding(8.dp)
+    )
+}
+
+@Composable
+fun SteppedSliderComponent() {
+    var sliderValue by remember { mutableStateOf(0.5f) }
+    Slider(
+        value = sliderValue,
+        modifier = Modifier.padding(8.dp),
+        valueRange = 0f..10f,
+        steps = 10,
+        onValueChange = { sliderValue = it })
+    Text(
+        text = "Slider value: $sliderValue",
+        modifier = Modifier.padding(8.dp)
+    )
+}
+
+@Composable
+fun SimpleRadioButtonComponent() {
+    val radioOptions = listOf("Tung", "Thuy", "Mai")
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[2]) }
+    Column {
+        radioOptions.forEach { text ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .selectable(
+                        selected = (text == selectedOption),
+                        onClick = { onOptionSelected(text) }
+                    )
+                    .padding(horizontal = 16.dp)
+            ) {
+                RadioButton(
+                    selected = (text == selectedOption),
+                    onClick = { onOptionSelected(text) }
+                )
+                Text(
+                    text = text,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
             }
         }
     }
+}
+
+@Composable
+fun SimpleCircularProgressComponent() {
+    CircularProgressIndicator(
+        modifier = Modifier.padding(16.dp)
+    )
+}
+
+@Composable
+fun CircularProgressComponent() {
+    CircularProgressIndicator(
+        modifier = Modifier.padding(16.dp),
+        progress = 0.4f,
+        color = Color.Green
+    )
+}
+
+@Composable
+fun SimpleLinearProgressComponent() {
+    LinearProgressIndicator(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    )
+}
+
+@Composable
+fun LinearProgressComponent() {
+    LinearProgressIndicator(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        progress = 0.7f,
+        color = Color.Green
+    )
 }
 
 @Composable
