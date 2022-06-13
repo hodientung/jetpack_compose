@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,8 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.SemanticsProperties.ToggleableState
@@ -64,16 +67,17 @@ class MainActivity : ComponentActivity() {
 //                SimpleTextComponent(text = "Tri-State CheckBox Example")
 //                TriStateCheckboxComponent()
 //            }
-            Column {
-                SimpleTextComponent(text = "Simple Circular Progress")
-                SimpleCircularProgressComponent()
-                SimpleTextComponent(text = "Circular ProgressBar with 40% progress")
-                CircularProgressComponent()
-                SimpleTextComponent(text = "Simple Linear Progress")
-                SimpleLinearProgressComponent()
-                SimpleTextComponent(text = "Linear Progress with 70% progress")
-                LinearProgressComponent()
-            }
+//            Column {
+//                SimpleTextComponent(text = "Simple Circular Progress")
+//                SimpleCircularProgressComponent()
+//                SimpleTextComponent(text = "Circular ProgressBar with 40% progress")
+//                CircularProgressComponent()
+//                SimpleTextComponent(text = "Simple Linear Progress")
+//                SimpleLinearProgressComponent()
+//                SimpleTextComponent(text = "Linear Progress with 70% progress")
+//                LinearProgressComponent()
+//            }
+            CustomViewComponent()
 //            Column {
 //                SimpleTextComponent(text = "Radio Button Example")
 //                SimpleRadioButtonComponent()
@@ -87,6 +91,48 @@ class MainActivity : ComponentActivity() {
 //                SteppedSliderComponent()
 //            }
         }
+    }
+}
+
+@Composable
+fun CustomViewComponent() {
+    Canvas(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
+        drawRect(
+            color = Color.Red,
+            topLeft = Offset(0f, 0f),
+            size = Size(800f, 400f)
+        )
+        drawRect(
+            color = Color.Green,
+            topLeft = Offset(100f, 100f),
+            size = Size(600f, 200f)
+        )
+        drawRect(
+            color = Color.Yellow,
+            topLeft = Offset(200f, 150f),
+            size = Size(400f, 100f)
+        )
+        drawArc(
+            Color.Gray,
+            startAngle = 0f,
+            sweepAngle = 120f,
+            useCenter = true,
+            size = Size(600f, 600f),
+            topLeft = Offset(200f, 200f)
+        )
+        drawLine(
+            color = Color.Green,
+            start = Offset(400f, 400f),
+            end = Offset(500f, 500f),
+            strokeWidth = 4f
+        )
+        drawCircle(
+            color = Color.Red,
+            center = Offset(500f, 500f),
+            radius = 40f
+        )
     }
 }
 
