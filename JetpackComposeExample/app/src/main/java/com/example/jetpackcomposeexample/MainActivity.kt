@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -77,7 +80,8 @@ class MainActivity : ComponentActivity() {
 //                SimpleTextComponent(text = "Linear Progress with 70% progress")
 //                LinearProgressComponent()
 //            }
-            CustomViewComponent()
+            //CustomViewComponent()
+            CrossFadeAnimation()
 //            Column {
 //                SimpleTextComponent(text = "Radio Button Example")
 //                SimpleRadioButtonComponent()
@@ -95,10 +99,35 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun CrossFadeAnimation() {
+    val colors = listOf(Color.Red, Color.Green, Color.Blue, Color.Gray)
+    var current by remember { mutableStateOf(colors[0]) }
+    Column(modifier = Modifier.fillMaxSize()) {
+        Crossfade(targetState = current, animationSpec = tween(3000)) { color ->
+            Box(Modifier
+                .fillMaxSize()
+                .clickable(
+                    onClick = {
+                        current = colors.random()
+                    }
+                )
+                .background(color))
+            Text(
+                modifier = Modifier.fillMaxSize(),
+                textAlign = TextAlign.Center,
+                text = "Click To See"
+            )
+        }
+    }
+}
+
+@Composable
 fun CustomViewComponent() {
-    Canvas(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)) {
+    Canvas(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         drawRect(
             color = Color.Red,
             topLeft = Offset(0f, 0f),
