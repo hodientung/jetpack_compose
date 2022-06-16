@@ -1,6 +1,7 @@
 package com.example.jetpackcomposeexample
 
 import android.annotation.SuppressLint
+import android.icu.lang.UCharacter.DecompositionType.INITIAL
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -81,7 +83,10 @@ class MainActivity : ComponentActivity() {
 //                LinearProgressComponent()
 //            }
             //CustomViewComponent()
-            CrossFadeAnimation()
+            //CrossFadeAnimation()
+            MaterialTheme {
+                App()
+            }
 //            Column {
 //                SimpleTextComponent(text = "Radio Button Example")
 //                SimpleRadioButtonComponent()
@@ -96,6 +101,35 @@ class MainActivity : ComponentActivity() {
 //            }
         }
     }
+}
+
+class Counter(counter: Int) {
+    var counter by mutableStateOf(counter)
+}
+
+@Composable
+fun App() {
+    SetupStateUsingState()
+}
+
+@Composable
+private fun SetupStateUsingState() {
+    val counter = remember { Counter(0) }
+    Column {
+        TopAppBar(
+            title = { Text(text = "State Management") }
+        )
+        //var counterState: MutableState<Int> = remember { mutableStateOf(1) }
+        Text(
+            text = counter.counter.toString()
+        )
+        Button(onClick = {
+            counter.counter += 5
+        }) {
+            Text(text = "Click to Add 5")
+        }
+    }
+
 }
 
 @Composable
